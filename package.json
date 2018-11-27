@@ -1,0 +1,27 @@
+{
+  "name": "bloc-note",
+  "version": "1.0.0",
+  "description": "Wrinting pad",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LilianSeon/bloc-note.git"
+  },
+  "keywords": [
+    "Bloc",
+    "Note"
+  ],
+  "author": "Lilian Séon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LilianSeon/bloc-note/issues"
+  },
+  "homepage": "https://github.com/LilianSeon/bloc-note#readme",
+  "dependencies": {
+    "electron": "^3.0.10",
+    "fs": "0.0.1-security"
+  }
+}

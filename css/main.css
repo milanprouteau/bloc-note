@@ -1,0 +1,336 @@
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display');
+@import url('https://fonts.googleapis.com/css?family=Chivo:300');
+
+@keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}} /* Pulsation*/
+@keyframes fading {0%{opacity:0}50%{opacity:50%}100%{opacity:1;}} /* Fading */
+@keyframes rotating {from{transform: rotate(0deg);}to{transform: rotate(360deg);}} /* Rotation */
+
+.save{
+    z-index: 2;
+    position: fixed;
+    width: 150px;
+    height: 50px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 0 auto;
+}
+
+#saveButton{
+    background-color: lightgreen;
+    border: none;
+    width: 175px;
+    height: 30px;
+    border-radius: 5px;
+    font-style: bold;
+    font-size: 1.1rem;
+}
+
+body{
+	font-family: 'Chivo', sans-serif;
+	font-weight: 300;
+	background-color: #424951;
+}
+
+.title{
+	font-family: 'Playfair Display', sans-serif !important;
+	font-weight: 700;
+	color: #FFF;
+	text-align: center;
+	margin-top: 45px;
+	font-size: 40px;
+}
+
+hr{
+	margin-top: -15px;
+	color: #FFF;
+	width: 160px;
+}
+
+.button {
+    background-color: #f44336;
+    border: none;
+    color: white;
+    position: fixed;
+    padding-top: 4px;
+    bottom: 10px;
+    right: 12px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 27px;
+    height: 45px;
+    width: 45px;
+    cursor: pointer;
+     box-shadow: 0 0 0 0 rgba(232, 76, 61, 0.7);
+}
+
+.button:hover{
+	background-color: #ba000d;
+    animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+.buttonAdd{
+	border-radius: 50%;
+}
+
+/********    MODAL    *********/
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 50px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    animation: fading 0.5s;
+}
+
+.modal-content {
+    background-color: #f1f1f1;
+    margin: auto;
+    padding: 15px;
+    border: 1px solid #888;
+    width: 80%;
+    border-radius: 5px;
+}
+
+.close {
+  position: top;
+    color: #aaaaaa;
+    float: right;
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 0px;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    animation: rotating 1.5s;
+    animation-iteration-count: 1;
+
+}/* Fin Modal */
+
+input {
+  display: inline-block;
+  font-size: inherit;
+  margin-top: 1em;
+  height: 20px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: solid black 1px;
+}
+
+label{
+  font-style: bold;
+}
+
+input + label {
+  position: relative;
+  display: block;
+  padding-left: .1em;
+  transform: translateY(-1.3em);
+  transform-origin: left center;
+  opacity: .3;
+  transition: transform .2s, opacity .2s;
+  pointer-events: none;
+}
+
+input#title:valid + label {
+  transform: translateY(-2.3em) scale(.75, .75);
+  opacity: .8;
+  font-size: 22px;
+}
+
+input#title:valid{
+	border-bottom: solid green 2px !important;
+}
+
+input#message:valid + label {
+  transform: translateY(-10.3em) scale(.75, .75);
+  opacity: .8;
+  font-size: 22px;
+}
+
+#title:after{
+	content: '&#10004;';
+}
+
+.titleNote{
+	font-family: 'Chivo', sans-serif !important;
+	font-weight: 700;
+	color: #000;
+	text-align: center;
+	margin-top: 5px;
+	margin-bottom: 15px;
+	font-size: 40px;
+}
+
+#ajoutez{
+  background-color: #f44336; /* Red */
+  border-bottom-right-radius: 13px;
+  border-top-left-radius: 13px;
+  border: solid 1px #f44336;
+  padding-top: 17px;
+  padding-bottom: 17px;
+  padding-left: 45px;
+  padding-right: 45px;
+  font-size: 18px;
+  color: #FFF;
+  margin-left: 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+#ajoutez:hover{
+  background-color: #FFF;
+  border: solid 1px #f44336;
+  color: #f44336;
+}
+
+textarea{
+  font-family: 'Chivo', sans-serif !important;
+  font-size: 18px;
+  width: 505px;
+  height: 220px;
+  margin-bottom: 20px;
+}
+
+.container{
+    padding-left: 0.01em;
+    padding-right: 0.01em;
+    margin-right:auto;
+    margin-left: auto;
+}
+
+.card{
+	display: inline-block;
+    margin-top: 20px;
+    padding: 0.01em 16px;
+	color: #FFF;
+	background-color: #546e7a !important;
+    width: 41%;
+    border-radius: 0.6rem;
+    box-shadow: 4px 5px #333;
+}
+
+.cardG{
+    margin-left: 20px;
+    margin-right: 18px;
+}
+
+.cardD{
+    margin-left: 5px;
+    margin-right: 20px;
+}
+
+.card:hover{
+    transform: scale(1.01);
+    transition-duration: 0.2s;
+    box-shadow: 3px 4px #333;
+}
+
+.card:hover:checked{
+    border: 1px solid #ffab40;
+}
+
+.card:hover .iconImg{
+    visibility: visible !important;
+}
+
+.iconImg{
+    width: 20px;
+    height: 20px;
+    float: right;
+    margin-top: -40px;
+    visibility: hidden;
+    transition: 0.1s;
+    cursor: pointer;
+}
+
+h3{
+	color: #ffab40;
+}
+
+.areaModif{
+  width: 100% !important;
+  border-radius: 5px;
+}
+
+/***** TOAST *****/
+
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
+
+#snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/***** SCROLLBAR *****/
+
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 7px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #ffab40; 
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+::-webkit-scrollbar-thumb:window-inactive {
+	background: #ffb75b; 
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<title>Bloc - Note</title>
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body class="container">
+
+	<h1 class="title">Bloc - Note</h1>
+	<hr>
+	<div id="note"><!-- Note --></div>
+	<div id="myModal" class="modal"> <!-- Modal -->
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<h1 class="titleNote">NOTE</h1>
+			<div style="display: inline;">
+				<input id="title" name="title" type="text" required>
+				<label class="container" for="title"><b>Titre</b></label><br>
+				<textarea id="message" name="message" placeholder="Message..." required></textarea>
+				<button id="ajoutez">Ajoutez</button>
+				<div id="snackbar">Une note vient d'être ajouté.</div>
+			</div>
+		</div>
+	</div>
+	<div id="save" class="save" style="display:none;">
+		<button id="saveButton">Sauvegarder</button>
+	</div>
+	<button id="add" class="button buttonAdd" title="Ajoutez une Note">+</button>
+
+
+
+<script type="text/javascript">
+
+	document.getElementById('ajoutez').addEventListener('click',function(){
+		title = document.getElementById('title').value;
+		message = document.getElementById('message').value;
+		var fs = require('fs');
+
+		if (fs.existsSync('myjsonfile.json') == false) { // If json file doesn't exists
+			var obj = {
+   				note1: {'title': title.toString(), 'message': message.toString()}
+			};
+			var json = JSON.stringify(obj);
+			fs.writeFile('myjsonfile.json', json, 'utf8', function(err) {
+    			if(err) {
+        			return console.log(err);
+    			}
+				console.log("The file was saved!");
+				toast();
+			});
+		}else{
+			fs.readFile('myjsonfile.json', 'utf8', function readFileCallback(err, data){
+    			if (err){
+        			console.log(err);
+    			} else {
+					obj = JSON.stringify(data);
+					obj = JSON.parse(obj);
+					var cb1 = data.match(/"note/g);
+
+					cb1 = cb1.length+1;
+					obj += '"note'+cb1+'":{"title": "'+title+'", "message": "'+message+'"}}';
+					obj = obj.replace('}}', '},');
+    			obj = JSON.stringify(obj);
+
+    				obj = JSON.parse(obj);
+    				fs.writeFile('myjsonfile.json', obj, 'utf8', function(err) {
+    			if(err) {
+        			return console.log(err);
+    			}
+				console.log("The file was saved!");
+				toast();
+			});
+				}
+			});
+		}
+	});
+
+	const electron = require('electron');
+	const {ipcRenderer} = electron;
+
+	// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("add");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+function toast() { //Toggle Toast
+	var x = document.getElementById("snackbar");
+	x.className = "show";
+	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+var fs = require('fs');
+
+
+	fs.stat('myjsonfile.json', function(err, stats){// If json file do exist
+	if(!err){
+		displayNote();
+	}else{
+		alert('No file json');
+	}
+	});
+
+	function getFilesizeInBytes(filename) {
+        const stats = fs.statSync(filename);
+        const fileSizeInBytes = stats.size;
+        return fileSizeInBytes;
+	}
+
+	const stats = fs.statSync("myjsonfile.json");
+	var fileSize = stats.size;
+	
+	window.setInterval(function(){ // Display the new note almost in real time.
+		if(fileSize != getFilesizeInBytes('myjsonfile.json')){
+			displayNote();
+			fileSize = getFilesizeInBytes('myjsonfile.json');
+		}
+	},200);
+
+
+function displayNote(){
+	var html = [];
+	var content = fs.readFileSync("myjsonfile.json");
+	var jsonContent = JSON.parse(content);
+	var count = Object.keys(jsonContent).length;
+	var count2 = Object.keys(jsonContent);
+	for(var i = 1; i <= count; i++){
+		key = 'note'+i;
+		html += '<div class="card cardG"><h3 id="titleNote'+i+'">'+ eval('jsonContent.note'+ i +'.title')+'</h3><img id="modif" onclick="modif('+ i +');" class="iconImg" src="img/pen.PNG" alt="Modifiez"><textarea id="area'+i+'" class="areaModif" style="display:none;">'+ eval('jsonContent.note'+ i +'.message')+'</textarea><p id="messageNote'+i+'">'+ eval('jsonContent.note'+ i +'.message')+'</p></div>'; 
+	}
+	document.getElementById('note').innerHTML = html;
+}
+
+function modif(i){ // Modify the note selected
+
+	var textArea = document.getElementById("area"+i);
+	var noteArea = document.getElementById("messageNote"+i);
+	var saveDiv = document.getElementById("save");
+	noteArea.style.display = "none";
+	textArea.style.display = "block";
+	save.style.display = "block";
+
+}
+
+
+
+</script>
+</body>
+</html>
