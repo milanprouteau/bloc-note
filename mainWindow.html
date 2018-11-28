@@ -28,8 +28,6 @@
 	</div>
 	<button id="add" class="button buttonAdd" title="Ajoutez une Note">+</button>
 
-
-<script src="function.js"></script>
 <script type="text/javascript">
 
 var fs = require('fs');
@@ -158,16 +156,17 @@ function displayNote(){
 	var count2 = Object.keys(jsonContent);
 	for(var i = 1; i <= count; i++){
 		key = 'note'+i;
-		html += '<div class="card cardG"><h3 id="titleNote'+i+'">'+ eval('jsonContent.note'+ i +'.title')+'</h3><img id="modif" onclick="modif('+ i +');" class="iconImg" src="img/pen.PNG" alt="Modifiez"><textarea id="area'+i+'" class="areaModif" style="display:none;">'+ eval('jsonContent.note'+ i +'.message')+'</textarea><p id="messageNote'+i+'">'+ eval('jsonContent.note'+ i +'.message')+'</p></div>'; 
+		html += '<div class="card cardG"><h3 id="titleNote'+i+'">'+ eval('jsonContent.note'+ i +'.title')+'</h3><img id="modif" onclick="modif('+ i +');" class="iconImg" src="img/pen.PNG" alt="Modifiez"><textarea id="area'+i+'" class="areaModif" name="'+i+'" style="display:none;">'+ eval('jsonContent.note'+ i +'.message')+'</textarea><p id="messageNote'+i+'">'+ eval('jsonContent.note'+ i +'.message')+'</p></div>'; 
 	}
 	document.getElementById('note').innerHTML = html;
 }
 
-function modif(i){ // Modify the note selected
+function modif(i){ // Modify the note selected & save button appear
 
 	var textArea = document.getElementById("area"+i);
 	var noteArea = document.getElementById("messageNote"+i);
 	var saveDiv = document.getElementById("save");
+	var saveButton = document.getElementById('saveButton');
 	for (var a = 1; a < amountNote; a++) {
 		if(a == i){
 			a++;
@@ -179,18 +178,26 @@ function modif(i){ // Modify the note selected
 		
 	}
 
-	if (textArea.style.display != "block") {
+	if (textArea.style.display != "block") { // If TextArea not visible
 		noteArea.style.display = "none";
 		textArea.style.display = "block";
 		save.style.display = "block";
+		saveButton.setAttribute("name", ""+i+"");
 	}else{
 		noteArea.style.display = "block";
 		textArea.style.display = "none";
 		save.style.display = "none";
+		saveButton.setAttribute("name", "");
 	}
-
-
+	return i;
 }
+
+document.getElementById('saveButton').addEventListener("click", function(){ // If save button is clicked
+
+	var id = document.getElementById("saveButton").name;
+	
+
+});
 
 
 
