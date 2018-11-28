@@ -24,6 +24,8 @@
     border-radius: 5px;
     font-style: bold;
     font-size: 1.1rem;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
 body{
@@ -268,7 +270,7 @@ h3{
 
 /***** TOAST *****/
 
-#snackbar {
+#snackbar1 {
     visibility: hidden;
     min-width: 250px;
     margin-left: -125px;
@@ -284,10 +286,32 @@ h3{
     font-size: 17px;
 }
 
-#snackbar.show {
+#snackbar1.show {
     visibility: visible;
     -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
     animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+#snackbar2 {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 79.5%;
+    top: 30px;
+    font-size: 17px;
+}
+
+#snackbar2.show {
+    visibility: visible;
+    -webkit-animation: fadein2 0.5s, fadeout2 0.5s 3.5s;
+    animation: fadein2 0.5s, fadeout2 0.5s 3.5s;
 }
 
 /***** SCROLLBAR *****/
@@ -333,4 +357,24 @@ h3{
 @keyframes fadeout {
     from {bottom: 30px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
+}
+
+@-webkit-keyframes fadein2 {
+    from {top: 0; opacity: 0;}
+    to {top: 30px; opacity: 1;}
+}
+
+@keyframes fadein2 {
+    from {top: 0; opacity: 0;}
+    to {top: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout2 {
+    from {left: 79.5%; opacity: 1;}
+    to {left: 101%; opacity: 0;}
+}
+
+@keyframes fadeout2 {
+    from {left: 79.5%; opacity: 1;}
+    to {left: 101%; opacity: 0;}
 }

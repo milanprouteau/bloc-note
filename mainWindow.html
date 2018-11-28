@@ -18,23 +18,36 @@
 				<label class="container" for="title"><b>Titre</b></label><br>
 				<textarea id="message" name="message" placeholder="Message..." required></textarea>
 				<button id="ajoutez">Ajoutez</button>
-				<div id="snackbar">Une note vient d'être ajouté.</div>
+				<div id="snackbar1">Une note vient d'être ajouté.</div>
 			</div>
 		</div>
 	</div>
+	<div id="snackbar2">Modifiez une note à la fois.</div>
 	<div id="save" class="save" style="display:none;">
 		<button id="saveButton">Sauvegarder</button>
 	</div>
 	<button id="add" class="button buttonAdd" title="Ajoutez une Note">+</button>
 
 
-
+<script src="function.js"></script>
 <script type="text/javascript">
+
+var fs = require('fs');
+
+function noteCount(){
+	var read = fs.readFileSync('myjsonfile.json');
+	var data = JSON.parse(read);
+	var data2 = JSON.stringify(data);
+	var cb = data2.match(/"note/g);
+
+	return cb.length;
+}
+
+var amountNote = noteCount();
 
 	document.getElementById('ajoutez').addEventListener('click',function(){
 		title = document.getElementById('title').value;
 		message = document.getElementById('message').value;
-		var fs = require('fs');
 
 		if (fs.existsSync('myjsonfile.json') == false) { // If json file doesn't exists
 			var obj = {
@@ -46,7 +59,7 @@
         			return console.log(err);
     			}
 				console.log("The file was saved!");
-				toast();
+				toast(1);
 			});
 		}else{
 			fs.readFile('myjsonfile.json', 'utf8', function readFileCallback(err, data){
@@ -68,7 +81,7 @@
         			return console.log(err);
     			}
 				console.log("The file was saved!");
-				toast();
+				toast(1);
 			});
 				}
 			});
@@ -104,10 +117,10 @@ window.onclick = function(event) {
     }
 }
 
-function toast() { //Toggle Toast
-	var x = document.getElementById("snackbar");
+function toast(i) { //Toggle Toast
+	var x = document.getElementById("snackbar"+i);
 	x.className = "show";
-	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 4000);
 }
 var fs = require('fs');
 
@@ -155,9 +168,27 @@ function modif(i){ // Modify the note selected
 	var textArea = document.getElementById("area"+i);
 	var noteArea = document.getElementById("messageNote"+i);
 	var saveDiv = document.getElementById("save");
-	noteArea.style.display = "none";
-	textArea.style.display = "block";
-	save.style.display = "block";
+	for (var a = 1; a < amountNote; a++) {
+		if(a == i){
+			a++;
+		}
+		if (document.getElementById("area"+a).style.display == "block") {
+			toast(2);
+			return false;
+		}
+		
+	}
+
+	if (textArea.style.display != "block") {
+		noteArea.style.display = "none";
+		textArea.style.display = "block";
+		save.style.display = "block";
+	}else{
+		noteArea.style.display = "block";
+		textArea.style.display = "none";
+		save.style.display = "none";
+	}
+
 
 }
 
