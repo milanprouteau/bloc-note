@@ -17,15 +17,20 @@
 }
 
 #saveButton{
-    background-color: lightgreen;
-    border: none;
+    background-color: transparent;
+    border: 2px solid lightgreen;
+    color: lightgreen;
     width: 175px;
     height: 30px;
     border-radius: 5px;
     font-style: bold;
     font-size: 1.1rem;
-    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    -webkit-animation: fadein 1s;
+    animation: fadein 1s;
+}
+
+#saveButton:hover{
+    cursor: pointer;
 }
 
 body{
