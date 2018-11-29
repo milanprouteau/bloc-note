@@ -194,12 +194,17 @@ function modif(i){ // Modify the note selected & save button appear
 
 document.getElementById('saveButton').addEventListener("click", function(){ // If save button is clicked
 
-	var id = document.getElementById("saveButton").name;
+	var id = document.getElementById("saveButton").name; // Note's Id
+	var text = document.getElementById('area'+id).value;
+	const editJsonFile = require("edit-json-file");
+	let file = editJsonFile(`${__dirname}/myjsonfile.json`);
 	
-
+	file.set('note'+id+'.message', text); // To edit the message from the note(id)
+	file.save();
+	file = editJsonFile(`${__dirname}/myjsonfile.json`, {
+    		autosave: true
+	});
 });
-
-
 
 </script>
 </body>
