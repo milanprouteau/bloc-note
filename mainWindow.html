@@ -23,6 +23,7 @@
 		</div>
 	</div>
 	<div id="snackbar2">Modifiez une note à la fois.</div>
+	<div id="snackbar3">Modification enregistré &#10004;</div>
 	<div id="save" class="save" style="display:none;">
 		<button id="saveButton">Sauvegarder</button>
 	</div>
@@ -32,7 +33,7 @@
 
 var fs = require('fs');
 
-function noteCount(){
+function noteCount(){ // Count the amount of note saved
 	var read = fs.readFileSync('myjsonfile.json');
 	var data = JSON.parse(read);
 	var data2 = JSON.stringify(data);
@@ -204,6 +205,9 @@ document.getElementById('saveButton').addEventListener("click", function(){ // I
 	file = editJsonFile(`${__dirname}/myjsonfile.json`, {
     		autosave: true
 	});
+	modif(id);
+	displayNote();
+	toast(3);
 });
 
 </script>
