@@ -5,6 +5,26 @@
 @keyframes fading {0%{opacity:0}50%{opacity:50%}100%{opacity:1;}} /* Fading */
 @keyframes rotating {from{transform: rotate(0deg);}to{transform: rotate(360deg);}} /* Rotation */
 
+.restriction{
+    display: inline;
+}
+
+.cross{
+    width: 20px;
+    height: 20px;
+    float: right;
+    margin-top: -60px;
+    margin-right: -8px;
+    visibility: hidden;
+    transition: 0.1s;
+    cursor: pointer;
+    color: #000 !important;
+}
+
+.cross:hover{
+    zoom: 1.03;
+}
+
 .save{
     z-index: 2;
     position: fixed;
@@ -28,8 +48,8 @@
     transform: translate(-50%, 0%);
     font-style: bold;
     font-size: 1.1rem;
-    -webkit-animation: fadein 1s;
-    animation: fadein 1s;
+    -webkit-animation: fadein 0.5s;
+    animation: fadein 0.5s;
     position: absolute;
     opacity: 1;
     filter: none;
@@ -37,6 +57,7 @@
 
 #saveButton:hover{
     cursor: pointer;
+    zoom: 1.02;
 }
 
 body{
@@ -127,8 +148,6 @@ hr{
     color: #000;
     text-decoration: none;
     cursor: pointer;
-    animation: rotating 1.5s;
-    animation-iteration-count: 1;
 
 }/* Fin Modal */
 
@@ -136,7 +155,7 @@ input {
   display: inline-block;
   font-size: inherit;
   margin-top: 1em;
-  height: 20px;
+  height: 25px;
   border-top: none;
   border-left: none;
   border-right: none;
@@ -151,7 +170,7 @@ input + label {
   position: relative;
   display: block;
   padding-left: .1em;
-  transform: translateY(-1.3em);
+  transform: translateY(-1.45em);
   transform-origin: left center;
   opacity: .3;
   transition: transform .2s, opacity .2s;
@@ -159,7 +178,7 @@ input + label {
 }
 
 input#title:valid + label {
-  transform: translateY(-2.3em) scale(.75, .75);
+  transform: translateY(-2.5em) scale(.75, .75);
   opacity: .8;
   font-size: 22px;
 }
@@ -200,8 +219,16 @@ input#message:valid + label {
   font-size: 18px;
   color: #FFF;
   margin-left: 10px;
+  margin-right: 20px;
   margin-bottom: 5px;
   cursor: pointer;
+  display: inline;
+}
+#over{
+    top:10px;
+}
+.circle{
+    display: inline;
 }
 
 #ajoutez:hover{
@@ -209,6 +236,45 @@ input#message:valid + label {
   border: solid 1px #f44336;
   color: #f44336;
 }
+
+svg{
+    transform: rotate(-90deg);
+}
+  
+svg.RadialCounter {
+margin-bottom: -4px;
+overflow: visible;
+transform: rotate(-90deg);
+}
+
+.RadialCounter--safe {
+stroke: #1da1f2;
+}
+
+.RadialCounter--warn {
+stroke: #ffad1f;
+}
+
+.RadialCounter--danger {
+stroke: #e0245e;
+}
+
+.RadialCounter-progressUnderlay {
+stroke: #becad3;
+}
+
+@keyframes RadialCounterPulse {
+0% { stroke-width:2 }
+50% { stroke-width: 3.5; }
+100% { stroke-width: 2; }
+}
+
+.RadialCounter--danger.RadialCounter--pulse,
+.RadialCounter--warn.RadialCounter--pulse {
+animation: RadialCounterPulse 0.3s ease-in-out;
+animation-iteration-count: 1;
+}
+    
 
 #message{
   font-family: 'Chivo', sans-serif !important;
@@ -260,14 +326,23 @@ input#message:valid + label {
     visibility: visible !important;
 }
 
+.card:hover .cross{
+    visibility: visible !important;
+}
+
 .iconImg{
     width: 20px;
     height: 20px;
     float: right;
-    margin-top: -40px;
+    margin-top: -52px;
+    margin-right: 35px;
     visibility: hidden;
     transition: 0.1s;
     cursor: pointer;
+}
+
+.iconImg:hover{
+    zoom: 1.03;
 }
 
 h3{

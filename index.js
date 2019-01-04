@@ -12,6 +12,8 @@ app.on('ready', function(){
 	mainWindow = new BrowserWindow({
 		minWidth: 900,
 		minHeight: 340,
+		width: 900,
+		height: 600,
 		center: true,
 	  })
 	// Load html file into window
