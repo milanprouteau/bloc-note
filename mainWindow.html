@@ -12,12 +12,23 @@
 	<div id="myModal" class="modal"> <!-- Modal -->
 		<div class="modal-content">
 			<span class="close">&times;</span>
-			<h1 class="titleNote">NOTE</h1>
+			<h1 class="titleNote"> Nouvelle Note
+			</h1>
 			<div style="display: inline;">
 				<input id="title" name="title" type="text" required>
 				<label class="container" for="title"><b>Titre</b></label><br>
-				<textarea id="message" name="message" placeholder="Message..." required></textarea>
+				<textarea id="message" name="message" placeholder="Message..." onkeydown="characteresCount(100)" required></textarea>
 				<button id="ajoutez">Ajoutez</button>
+				<div id="snackbar4">La limite de caractère a été atteind</div>
+					<span id="over"></span>
+					<div class="restriction">
+					<span class="circle">
+						<svg height="20" width="20">
+							<circle id="circle1" class="RadialCounter-progressUnderlay" cx="50%" cy="50%" r="8" fill="none" stroke-width="1"></circle>
+							<circle id="circle2" class="js-progress-circle RadialCounter--safe" cx="50%" cy="50%" r="8" fill="none" stroke-width="2" style="stroke-dashoffset: 50;stroke-dasharray: 50.2655;"></circle>
+						</svg>
+					</span>
+				</div>
 				<div id="snackbar1">Une note vient d'être ajouté.</div>
 			</div>
 		</div>
@@ -30,8 +41,9 @@
 	<button id="add" class="button buttonAdd" title="Ajoutez une Note">+</button>
 
 <script type="text/javascript">
-
 var fs = require('fs');
+const editJsonFile = require("edit-json-file");
+const updateJsonFile = require('update-json-file');
 
 function noteCount(){ // Count the amount of note saved
 	var read = fs.readFileSync('myjsonfile.json');
@@ -50,37 +62,37 @@ var amountNote = noteCount();
 
 		if (fs.existsSync('myjsonfile.json') == false) { // If json file doesn't exists
 			var obj = {
-   				note1: {'title': title.toString(), 'message': message.toString()}
+   				note: [{'id': 1, 'title': title.toString(), 'message': message.toString()}]
 			};
-			var json = JSON.stringify(obj);
+			var json = JSON.stringify(obj, null, 4);
 			fs.writeFile('myjsonfile.json', json, 'utf8', function(err) {
     			if(err) {
         			return console.log(err);
     			}
-				console.log("The file was saved!");
+				console.log("The file was saved for the first time!");
 				toast(1);
+				displayNote();
 			});
 		}else{
 			fs.readFile('myjsonfile.json', 'utf8', function readFileCallback(err, data){
     			if (err){
         			console.log(err);
     			} else {
-					obj = JSON.stringify(data);
-					obj = JSON.parse(obj);
-					var cb1 = data.match(/"note/g);
-
+					var cb1 = data.match(/"id":/g); // count the amount of note
 					cb1 = cb1.length+1;
-					obj += '"note'+cb1+'":{"title": "'+title+'", "message": "'+message+'"}}';
-					obj = obj.replace('}}', '},');
-    			obj = JSON.stringify(obj);
-
-    				obj = JSON.parse(obj);
+					var obj = {
+  						note: []
+					};
+					obj = JSON.parse(data);
+					obj.note.push({id: cb1, title: title, message: message});
+					obj = JSON.stringify(obj, null, 4);
     				fs.writeFile('myjsonfile.json', obj, 'utf8', function(err) {
     			if(err) {
         			return console.log(err);
     			}
-				console.log("The file was saved!");
+				console.log("The file was saved in the file!");
 				toast(1);
+				displayNote();
 			});
 				}
 			});
@@ -121,6 +133,7 @@ function toast(i) { //Toggle Toast
 	x.className = "show";
 	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 4000);
 }
+
 var fs = require('fs');
 
 
@@ -138,6 +151,8 @@ var fs = require('fs');
         return fileSizeInBytes;
 	}
 
+function loop(){
+
 	const stats = fs.statSync("myjsonfile.json");
 	var fileSize = stats.size;
 	
@@ -146,20 +161,56 @@ var fs = require('fs');
 			displayNote();
 			fileSize = getFilesizeInBytes('myjsonfile.json');
 		}
-	},200);
+	},200, 1);
+}
 
+function displayNote(stop){
 
-function displayNote(){
+	if (stop) return; // stop the refreshing of the notes.
 	var html = [];
-	var content = fs.readFileSync("myjsonfile.json");
-	var jsonContent = JSON.parse(content);
-	var count = Object.keys(jsonContent).length;
-	var count2 = Object.keys(jsonContent);
-	for(var i = 1; i <= count; i++){
-		key = 'note'+i;
-		html += '<div class="card cardG"><h3 id="titleNote'+i+'">'+ eval('jsonContent.note'+ i +'.title')+'</h3><img id="modif" onclick="modif('+ i +');" class="iconImg" src="img/pen.PNG" alt="Modifiez"><span id="deleteNote" class="close cross">&times;</span><textarea id="area'+i+'" class="areaModif" name="'+i+'" style="display:none;">'+ eval('jsonContent.note'+ i +'.message')+'</textarea><p id="messageNote'+i+'">'+ eval('jsonContent.note'+ i +'.message')+'</p></div>'; 
+	 fs.readFile("myjsonfile.json", 'utf8', function (err, data){
+		if (err) return console.log(err);
+		var data = JSON.parse(data);
+		var count = Object.keys(data.note).length-1;
+		for(var i = 0; i <= count; i++){ // display note card
+			html += '<div class="card cardG"><h3 id="titleNote'+i+'">'+ eval('data.note['+ i +'].title')+'</h3><img id="modif" onclick="modif('+ i +');" class="iconImg" src="img/pen.PNG" alt="Modifiez"><span id="deleteNote" class="close cross">&times;</span><textarea id="area'+i+'" class="areaModif" name="'+i+'" style="display:none;">'+ eval('data.note['+ i +'].message')+'</textarea><p id="messageNote'+i+'">'+ eval('data.note['+ i +'].message')+'</p></div>'; 
+		}
+		document.getElementById('note').innerHTML = html;
+	});
+}
+
+function characteresCount(max){
+	var textArea = document.getElementById('message');
+	var count = textArea.value.length;
+	var circle2 = document.getElementById('circle2');
+
+	circle2.style.strokeDashoffset = 50-(50*count/max);
+
+	if (circle2.style.strokeDashoffset < 0) { // To stop filling the circle
+		circle2.style.strokeDashoffset = 0;
 	}
-	document.getElementById('note').innerHTML = html;
+
+	if (circle2.style.strokeDashoffset < 51 && circle2.style.strokeDashoffset < 10) { // Blue color
+		circle2.classList.remove('RadialCounter--warn', 'RadialCounter--danger');
+		circle2.classList.add('RadialCounter--safe');
+		document.getElementById('ajoutez').style.cursor = "pointer";
+	}
+	if (circle2.style.strokeDashoffset < 9 && circle2.style.strokeDashoffset > 0 ) { // Orange color
+		circle2.classList.remove('RadialCounter--safe', 'RadialCounter--danger', 'RadialCounter--pulse');
+		circle2.classList.add('RadialCounter--warn', 'RadialCounter--pulse');
+		document.getElementById('ajoutez').style.cursor = "pointer";
+	}
+	if (circle2.style.strokeDashoffset == 0) { // Red color
+		circle2.classList.remove('RadialCounter--safe', 'RadialCounter--warn', 'RadialCounter--pulse');
+		circle2.classList.add('RadialCounter--danger', 'RadialCounter--pulse');
+		document.getElementById('ajoutez').style.cursor = "not-allowed";
+	}
+	if (max-count < 0) { // display the extra characteres
+		document.getElementById('over').style.display = "inline";
+		document.getElementById('over').innerHTML = max-count;
+	}else{
+		document.getElementById('over').style.display = "none";
+	}
 }
 
 function modif(i){ // Modify the note selected & save button appear
@@ -191,23 +242,23 @@ function modif(i){ // Modify the note selected & save button appear
 		saveButton.setAttribute("name", "");
 	}
 	return i;
-}
+} /* Fin modif() */
 
 document.getElementById('saveButton').addEventListener("click", function(){ // If save button is clicked then edit note selected
 
 	var id = document.getElementById("saveButton").name; // Note's Id
 	var text = document.getElementById('area'+id).value;
-	const editJsonFile = require("edit-json-file");
-	let file = editJsonFile(`${__dirname}/myjsonfile.json`);
-	
-	file.set('note'+id+'.message', text); // To edit the message from the note(id)
-	file.save();
-	file = editJsonFile(`${__dirname}/myjsonfile.json`, {
-    		autosave: true
-	});
+
+	const filePath = './myjsonfile.json';
+
+	updateJsonFile(filePath, (data) => {
+		data.note[id].message = text; // change the message in the json file.
+		return data;
+	})
 	modif(id);
-	displayNote();
 	toast(3);
+	displayNote();
+	loop();
 });
 
 document.getElementById('deleteNote').addEventListener("click", function(){ // If delete is clicked then delete note selected

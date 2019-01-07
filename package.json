@@ -21,8 +21,9 @@
   },
   "homepage": "https://github.com/LilianSeon/bloc-note#readme",
   "dependencies": {
-    "edit-json-file": "^1.2.0",
-    "electron": "^3.0.10",
-    "fs": "0.0.1-security"
+    "edit-json-file": "^1.2.1",
+    "electron": "^3.0.14",
+    "fs": "0.0.1-security",
+    "update-json-file": "^1.1.1"
   }
 }

@@ -224,6 +224,7 @@ input#message:valid + label {
   cursor: pointer;
   display: inline;
 }
+
 #over{
     top:10px;
 }
@@ -420,6 +421,28 @@ h3{
 }
 
 #snackbar3.show {
+    visibility: visible;
+    -webkit-animation: fadein2 0.5s, fadeout2 0.5s 3.5s;
+    animation: fadein2 0.5s, fadeout2 0.5s 3.5s;
+}
+
+#snackbar4 {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 79.5%;
+    top: 30px;
+    font-size: 17px;
+}
+
+#snackbar4.show {
     visibility: visible;
     -webkit-animation: fadein2 0.5s, fadeout2 0.5s 3.5s;
     animation: fadein2 0.5s, fadeout2 0.5s 3.5s;
