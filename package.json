@@ -1,7 +1,7 @@
 {
   "name": "bloc-note",
   "version": "1.0.0",
-  "description": "Wrinting pad",
+  "description": "Writing pad",
   "main": "index.js",
   "scripts": {
     "start": "electron ."
