@@ -66,9 +66,7 @@ var amountNote = noteCount();
 			};
 			var json = JSON.stringify(obj, null, 4);
 			fs.writeFile('myjsonfile.json', json, 'utf8', function(err) {
-    			if(err) {
-        			return console.log(err);
-    			}
+    			if(err) return console.log(err);
 				console.log("The file was saved for the first time!");
 				toast(1);
 				displayNote();
@@ -87,13 +85,11 @@ var amountNote = noteCount();
 					obj.note.push({id: cb1, title: title, message: message});
 					obj = JSON.stringify(obj, null, 4);
     				fs.writeFile('myjsonfile.json', obj, 'utf8', function(err) {
-    			if(err) {
-        			return console.log(err);
-    			}
-				console.log("The file was saved in the file!");
-				toast(1);
-				displayNote();
-			});
+    					if(err) return console.log(err);
+						console.log("The file was saved in the file!");
+						toast(1);
+						displayNote();
+					});
 				}
 			});
 		}
