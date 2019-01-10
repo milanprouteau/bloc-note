@@ -1,6 +1,7 @@
 const electron = require('electron');
 const url = require ('url');
 const path = require('path');
+const Tray = electron.Tray;
 const {app, BrowserWindow, Menu, ipcMain} = electron;
 
 let mainWindow;
@@ -32,6 +33,12 @@ app.on('ready', function(){
 	const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
 	// Insert menu
 	Menu.setApplicationMenu(mainMenu);
+
+
+    const tray = new Tray('img/pen.png');
+    // Petit bonus : on affiche une bulle au survol.
+    tray.setToolTip('Bloc-Note');
+    // Notre fichier continue avec l’initialisation de la fenêtre, etc.
 });
 
 
