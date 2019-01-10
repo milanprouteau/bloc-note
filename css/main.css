@@ -5,6 +5,47 @@
 @keyframes fading {0%{opacity:0}50%{opacity:50%}100%{opacity:1;}} /* Fading */
 @keyframes rotating {from{transform: rotate(0deg);}to{transform: rotate(360deg);}} /* Rotation */
 
+.btnRemove{
+    overflow: hidden
+}
+.ouiRemove{
+    float: right;
+    background-color: #FFF;
+    color: rgb(126, 224, 126);
+    border: rgb(126, 224, 126) solid 2px;
+    margin-right: 15px;
+    padding: 9px 12px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+.nonRemove{
+    float: right;
+    background-color: #FFF;
+    color: #f44336;
+    border: #f44336 solid 2px;
+    font-weight: bold;
+    padding: 9px 12px;
+    border-radius: 12px;
+}
+
+.ouiRemove:hover{
+    cursor: pointer;
+}
+
+.nonRemove:hover{
+    cursor: pointer;
+}
+
+#myModalRemove > .close{
+    margin-right: 10%;
+}
+
+.textRemove{
+    font-weight: bold;
+    text-align: center;
+}
+
 .restriction{
     display: inline;
 }
@@ -443,6 +484,28 @@ h3{
 }
 
 #snackbar4.show {
+    visibility: visible;
+    -webkit-animation: fadein2 0.5s, fadeout2 0.5s 3.5s;
+    animation: fadein2 0.5s, fadeout2 0.5s 3.5s;
+}
+
+#snackbar5 {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: lightgreen;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 79.5%;
+    top: 30px;
+    font-size: 17px;
+}
+
+#snackbar5.show {
     visibility: visible;
     -webkit-animation: fadein2 0.5s, fadeout2 0.5s 3.5s;
     animation: fadein2 0.5s, fadeout2 0.5s 3.5s;

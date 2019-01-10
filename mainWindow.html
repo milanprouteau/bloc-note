@@ -9,7 +9,7 @@
 	<h1 class="title">Bloc - Note</h1>
 	<hr>
 	<div id="note"><!-- Note --></div>
-	<div id="myModal" class="modal"> <!-- Modal -->
+	<div id="myModal" class="modal"> <!-- Note creation Modal -->
 		<div class="modal-content">
 			<span class="close">&times;</span>
 			<h1 class="titleNote"> Nouvelle Note
@@ -29,12 +29,22 @@
 						</svg>
 					</span>
 				</div>
-				<div id="snackbar1">Une note vient d'être ajouté.</div>
 			</div>
 		</div>
 	</div>
+	<div id="myModalRemove" class="modal" style="display:none;">
+		<div class="close">&times;</div>
+		<div class="modal-content">
+			<p class="textRemove">
+				Êtes-vous sûr de vouloir supprimer cette note ?
+			</p>
+			<div id="btnRemove" class="btnRemove"></div>
+		</div>
+	</div>
+	<div id="snackbar1">Une note vient d'être ajouté.</div>
 	<div id="snackbar2">Modifiez une note à la fois &#9888;</div>
 	<div id="snackbar3">Modification enregistré &#10004;</div>
+	<div id="snackbar5">La note a été supprimé &#10004;</div>
 	<div id="save" class="save" style="display:none;">
 		<button id="saveButton">Sauvegarder</button>
 	</div>
@@ -49,12 +59,10 @@ function noteCount(){ // Count the amount of note saved
 	var read = fs.readFileSync('myjsonfile.json');
 	var data = JSON.parse(read);
 	var data2 = JSON.stringify(data);
-	var cb = data2.match(/"note/g);
+	var cb = data2.match(/"id":/g);
 
 	return cb.length;
 }
-
-var amountNote = noteCount();
 
 	document.getElementById('ajoutez').addEventListener('click',function(){
 		title = document.getElementById('title').value;
@@ -62,7 +70,7 @@ var amountNote = noteCount();
 
 		if (fs.existsSync('myjsonfile.json') == false) { // If json file doesn't exists
 			var obj = {
-   				note: [{'id': 1, 'title': title.toString(), 'message': message.toString()}]
+   				note: [{'id': 1, 'display': true,'title': title.toString(), 'message': message.toString()}]
 			};
 			var json = JSON.stringify(obj, null, 4);
 			fs.writeFile('myjsonfile.json', json, 'utf8', function(err) {
@@ -82,7 +90,7 @@ var amountNote = noteCount();
   						note: []
 					};
 					obj = JSON.parse(data);
-					obj.note.push({id: cb1, title: title, message: message});
+					obj.note.push({id: cb1, display: true, title: title, message: message});
 					obj = JSON.stringify(obj, null, 4);
     				fs.writeFile('myjsonfile.json', obj, 'utf8', function(err) {
     					if(err) return console.log(err);
@@ -98,7 +106,7 @@ var amountNote = noteCount();
 	const electron = require('electron');
 	const {ipcRenderer} = electron;
 
-	// Get the modal
+// Get the modal
 var modal = document.getElementById('myModal');
 
 // Get the button that opens the modal
@@ -106,6 +114,7 @@ var btn = document.getElementById("add");
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
+
 
 // When the user clicks the button, open the modal
 btn.onclick = function() {
@@ -123,6 +132,21 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+
+// Get the <span> element that closes the modal
+var span2 = document.getElementsByClassName("close")[1];
+
+	// When the user clicks on <span> (x), close the modal
+		span2.onclick = function() {
+		document.getElementById('myModalRemove').style.display = "none";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+		if (event.target == document.getElementById('myModalRemove')) {
+			document.getElementById('myModalRemove').style.display = "none";
+		}
+	}
 
 function toast(i) { //Toggle Toast
 	var x = document.getElementById("snackbar"+i);
@@ -169,7 +193,9 @@ function displayNote(stop){
 		var data = JSON.parse(data);
 		var count = Object.keys(data.note).length-1;
 		for(var i = 0; i <= count; i++){ // display note card
-			html += '<div class="card cardG"><h3 id="titleNote'+i+'">'+ eval('data.note['+ i +'].title')+'</h3><img id="modif" onclick="modif('+ i +');" class="iconImg" src="img/pen.PNG" alt="Modifiez"><span id="deleteNote" class="close cross">&times;</span><textarea id="area'+i+'" class="areaModif" name="'+i+'" style="display:none;">'+ eval('data.note['+ i +'].message')+'</textarea><p id="messageNote'+i+'">'+ eval('data.note['+ i +'].message')+'</p></div>'; 
+			if (data.note[i].display == true) {
+				html += '<div class="card cardG"><h3 id="titleNote'+i+'">'+ eval('data.note['+ i +'].title')+'</h3><img id="modif" onclick="modif('+ i +');" class="iconImg" src="img/pen.PNG" alt="Modifiez"><span id="deleteNote" name="'+i+'" onclick="deleteNote('+i+', false);"class="close cross">&times;</span><textarea id="area'+i+'" class="areaModif" name="'+i+'" style="display:none;">'+ eval('data.note['+ i +'].message')+'</textarea><p id="messageNote'+i+'">'+ eval('data.note['+ i +'].message')+'</p></div>'; 
+			}
 		}
 		document.getElementById('note').innerHTML = html;
 	});
@@ -215,15 +241,12 @@ function modif(i){ // Modify the note selected & save button appear
 	var noteArea = document.getElementById("messageNote"+i);
 	var saveDiv = document.getElementById("save");
 	var saveButton = document.getElementById('saveButton');
-	for (var a = 1; a < amountNote; a++) {
-		if(a == i){
-			a++;
-		}
-		if (document.getElementById("area"+a).style.display == "block") {
+	var amountNote = noteCount();
+	for (var a = 0; a < amountNote; a++) {
+		if (document.getElementById("area"+a).style.display == "block" && a != i) { // If teaxtarea visible and user clicks on an other note
 			toast(2);
 			return false;
 		}
-		
 	}
 
 	if (textArea.style.display != "block") { // If TextArea not visible
@@ -257,12 +280,31 @@ document.getElementById('saveButton').addEventListener("click", function(){ // I
 	loop();
 });
 
-document.getElementById('deleteNote').addEventListener("click", function(){ // If delete is clicked then delete note selected
+function deleteNote(id, bool){ // Delete the note[id]. If bool = true then the function will remove the note, otherwise nothing will happen
+	const filePath = './myjsonfile.json';
+	var button = document.getElementById('btnRemove');
+	button.innerHTML= '<button id="non" class="nonRemove" onclick="deleteNote('+id+', false)">Non</button><button id="oui" class="ouiRemove" onclick="deleteNote('+id+', true)">Oui</button>';
 
+	if(bool){
+		updateJsonFile(filePath, (data) => {
+			data.note[id].display = false; // turn the display into false in the json file.
+			return data;
+		});
+		toast(5);
+		loop();
+	}
 
-});
+	// Get the modalRemove
+	var modalRemove = document.getElementById('myModalRemove');
 
-
+	if (modalRemove.style.display == "none") {
+		// When the user clicks the button, open the modal
+		modalRemove.style.display = "block";
+	}else{
+		modalRemove.style.display = "none";
+	}
+	
+}
 </script>
 </body>
 </html>
