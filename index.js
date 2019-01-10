@@ -13,6 +13,7 @@ app.on('ready', function(){
 	mainWindow = new BrowserWindow({
 		minWidth: 900,
 		minHeight: 340,
+		icon: 'img/pen.png',
 		width: 900,
 		height: 600,
 		center: true,
