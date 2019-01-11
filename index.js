@@ -13,7 +13,7 @@ app.on('ready', function(){
 	mainWindow = new BrowserWindow({
 		minWidth: 900,
 		minHeight: 340,
-		icon: 'img/pen.png',
+		icon: 'img/logo.png',
 		width: 900,
 		height: 600,
 		center: true,
@@ -36,7 +36,7 @@ app.on('ready', function(){
 	Menu.setApplicationMenu(mainMenu);
 
 
-    const tray = new Tray('img/pen.png');
+    const tray = new Tray('img/logo.png');
     // Petit bonus : on affiche une bulle au survol.
     tray.setToolTip('Bloc-Note');
     // Notre fichier continue avec l’initialisation de la fenêtre, etc.
