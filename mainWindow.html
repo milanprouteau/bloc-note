@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" id="html">
 <head>
 	<title>Bloc - Note</title>
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
-<body class="container">
-
+<body class="container" id="body">
 	<h1 class="title">Bloc - Note</h1>
 	<hr>
 	<div id="note"><!-- Note --></div>
@@ -54,6 +53,7 @@
 var fs = require('fs');
 const editJsonFile = require("edit-json-file");
 const updateJsonFile = require('update-json-file');
+const userHome = require('user-home');
 
 function noteCount(){ // Count the amount of note saved
 	var read = fs.readFileSync('myjsonfile.json');
@@ -194,7 +194,7 @@ function displayNote(stop){
 		var count = Object.keys(data.note).length-1;
 		for(var i = 0; i <= count; i++){ // display note card
 			if (data.note[i].display == true) {
-				html += '<div class="card cardG"><h3 id="titleNote'+i+'">'+ eval('data.note['+ i +'].title')+'</h3><img id="modif" onclick="modif('+ i +');" class="iconImg" src="img/pen.PNG" alt="Modifiez"><span id="deleteNote" name="'+i+'" onclick="deleteNote('+i+', false);"class="close cross">&times;</span><textarea id="area'+i+'" class="areaModif" name="'+i+'" style="display:none;">'+ eval('data.note['+ i +'].message')+'</textarea><p id="messageNote'+i+'">'+ eval('data.note['+ i +'].message')+'</p></div>'; 
+				html += '<div id="note'+i+'" draggable="true" ondrag="dragstart(event,'+data.note[i].id+');" class="card cardG"><h3 id="titleNote'+i+'">'+ eval('data.note['+ i +'].title')+'</h3><img id="modif" onclick="modif('+ i +');" class="iconImg" src="img/pen.PNG" alt="Modifiez"><span id="deleteNote" name="'+i+'" onclick="deleteNote('+i+', false);"class="close cross">&times;</span><textarea id="area'+i+'" class="areaModif" name="'+i+'" style="display:none;">'+ eval('data.note['+ i +'].message')+'</textarea><p id="messageNote'+i+'">'+ eval('data.note['+ i +'].message')+'</p></div>'; 
 			}
 		}
 		document.getElementById('note').innerHTML = html;
@@ -303,7 +303,23 @@ function deleteNote(id, bool){ // Delete the note[id]. If bool = true then the f
 	}else{
 		modalRemove.style.display = "none";
 	}
-	
+} /* Fin deleteNote() */
+
+function dragstart(event, id){
+	/*
+	*
+	* - Récupérer le titre + message de la note[id] et le mettre dans le fichier
+	*
+	*/
+	if (event.screenX == 0 && event.screenY == 0) { // if the user is leave the window
+		if (fs.existsSync(userHome+'/Desktop/note'+id+'.txt') == false) { // Check if the file is not already saved on desktop, if not then save it
+			fs.appendFile(userHome+'/Desktop/note'+id+'.txt', 'Hello content!', function (err) {
+				if (err) throw err;
+				console.log('Saved!');
+				return true;
+			});
+		}
+	} 
 }
 </script>
 </body>

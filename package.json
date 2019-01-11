@@ -24,6 +24,7 @@
     "edit-json-file": "^1.2.1",
     "electron": "^3.0.14",
     "fs": "0.0.1-security",
-    "update-json-file": "^1.1.1"
+    "update-json-file": "^1.1.1",
+    "user-home": "^2.0.0"
   }
 }

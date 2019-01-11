@@ -355,6 +355,7 @@ animation-iteration-count: 1;
 }
 
 .card:hover{
+    cursor: -webkit-grab;
     transform: scale(1.01);
     transition-duration: 0.2s;
     box-shadow: 3px 4px #333;
