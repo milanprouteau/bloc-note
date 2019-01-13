@@ -2,7 +2,7 @@ const electron = require('electron');
 const url = require ('url');
 const path = require('path');
 const Tray = electron.Tray;
-const {app, BrowserWindow, Menu, ipcMain} = electron;
+const {app, BrowserWindow, Menu, ipcMain, dialog} = electron;
 
 let mainWindow;
 let addWindow;
@@ -39,7 +39,21 @@ app.on('ready', function(){
     const tray = new Tray('img/logo.png');
     // Petit bonus : on affiche une bulle au survol.
     tray.setToolTip('Bloc-Note');
-    // Notre fichier continue avec l’initialisation de la fenêtre, etc.
+	// Notre fichier continue avec l’initialisation de la fenêtre, etc.
+	
+
+	// Throw an error message
+	ipcMain.on('information-dialog-selection', function () {
+		const option = {
+			type: 'error',
+			buttons: ['OK'],
+			title: 'Attention !',
+			message: 'Cette note est déjà enregistré sur le bureau.'
+		};
+		dialog.showMessageBox(null, option, (response) => {
+
+		});
+	})
 });
 
 
