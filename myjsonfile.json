@@ -2,7 +2,7 @@
 	"note": [
 		{
 			"id": 1,
-			"display": true,
+			"display": false,
 			"title": "Qu'est-ce que le Lorem Ipsum?",
 			"message": "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte."
 		},
@@ -29,6 +29,18 @@
 			"display": false,
 			"title": "f",
 			"message": "f"
+		},
+		{
+			"id": 6,
+			"display": true,
+			"title": "T'es tojo",
+			"message": ""
+		},
+		{
+			"id": 7,
+			"display": false,
+			"title": "T'es tojo",
+			"message": "fef"
 		}
 	]
 }
