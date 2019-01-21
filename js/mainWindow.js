@@ -135,7 +135,6 @@ function loop(){
 
 function displayNote(stop){
 	if (stop) return; // stop the refreshing of the notes.
-	/**/
 	var html = [];
 	 fs.readFile("myjsonfile.json", 'utf8', function (err, data){
 		if (err) displayNote(true); // Stop displaying if there is an error or if myjsonfile.json doesn't exist
