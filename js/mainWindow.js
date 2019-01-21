@@ -124,7 +124,6 @@ function loop(){
 
 	const stats = fs.statSync("myjsonfile.json");
 	var fileSize = stats.size;
-	
 	window.setInterval(function(){ // Display the new note almost in real time.
 		if(fileSize != getFilesizeInBytes('myjsonfile.json')){
 			displayNote();
