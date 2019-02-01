@@ -5,6 +5,89 @@
 @keyframes fading {0%{opacity:0}50%{opacity:50%}100%{opacity:1;}} /* Fading */
 @keyframes rotating {from{transform: rotate(0deg);}to{transform: rotate(360deg);}} /* Rotation */
 
+
+/* MENU */
+*,*:before,*:after {
+	box-sizing: border-box;
+}
+:after {
+	content: "";
+}
+ul{
+    list-style-type: none;
+    padding-left: 0 !important;
+}
+nav {
+    float: left;
+    position: sticky;
+    top: 0;
+    left: 0;
+    background: transparent;
+  }
+  
+  nav ul {
+      text-align: center;
+  }
+  
+  nav ul li {
+    position: relative;
+    width: 70px;
+    cursor: pointer;
+    background: crimson;
+    text-transform: uppercase;
+    transition:all .4s ease-out;
+  }
+  
+  nav ul li:after {
+    position: absolute;
+    background: white;
+    color: crimson;
+    top:0;
+    left: 70px;
+    width: 70px; height: 100%;
+    opacity:.5;
+    transform: perspective(400px) rotateY(90deg);
+    transform-origin: 0 100%;
+    transition:all .4s ease-out;
+  }
+  
+  nav ul li:nth-child(1):after { 
+      content: "Search";
+      line-height: 86px;
+      font-size: 16px;
+  }
+  nav ul li:nth-child(2):after { 
+      content: "New";
+      line-height: 88px;
+  }
+  nav ul li:nth-child(3):after { 
+      content: "profil";
+      line-height: 85px;
+  }
+  nav ul li:nth-child(4):after { 
+      content: "Leave";
+      line-height: 90px;
+  }
+  
+  nav ul li:hover {
+      transform: translateX(-70px);
+  }
+  
+  nav ul li:hover:after {
+    opacity: 1;
+    transform: perspective(400px) rotateY(0deg) scale(1) ;
+  }
+  
+  
+  nav ul li > div {
+      display: inline-block;
+      padding: 25px 0;
+      background: transparent;
+  }
+  
+  nav ul li div { position: relative; }
+
+  /* FIN MENU */
 .btnRemove{
     overflow: hidden
 }
@@ -373,6 +456,10 @@ animation-iteration-count: 1;
     visibility: visible !important;
 }
 
+.card:hover .iconImg2{
+    visibility: visible !important;
+}
+
 .iconImg{
     width: 20px;
     height: 20px;
@@ -385,6 +472,21 @@ animation-iteration-count: 1;
 }
 
 .iconImg:hover{
+    zoom: 1.03;
+}
+
+.iconImg2{
+    width: 30px;
+    height: 30px;
+    float: right;
+    margin-top: -57px;
+    margin-right: 70px;
+    visibility: hidden;
+    transition: 0.1s;
+    cursor: pointer;
+}
+
+.iconImg2:hover{
     zoom: 1.03;
 }
 
