@@ -63,7 +63,6 @@ function noteCount(){ // Count the amount of note saved
 	});
 
 	const electron = require('electron');
-	const {ipcRenderer} = electron;
 
 // Get the modal
 var modal = document.getElementById('myModal');
@@ -107,6 +106,11 @@ var span2 = document.getElementsByClassName("close")[1];
 			document.getElementById('myModalRemove').style.display = "none";
 		}
 	}
+
+
+document.getElementById('menu4').addEventListener('click', function () { // Quit the App
+	ipc.send('quit');
+});
 
 function toast(i) { //Toggle Toast
 	var x = document.getElementById("snackbar"+i);

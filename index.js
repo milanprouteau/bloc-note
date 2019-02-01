@@ -53,7 +53,7 @@ app.on('ready', function(){
 		dialog.showMessageBox(null, option, (response) => {
 
 		});
-	})
+	});
 });
 
 
@@ -83,6 +83,10 @@ ipcMain.on('item:add', function(e, item){
 	mainWindow.webContents.send('item:add', item);
 	//addWindow.close();	
 });	
+
+ipcMain.on('quit', function(){ // quit the App
+	app.quit();
+});
 
 
 // Create menu template
