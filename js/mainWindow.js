@@ -1,4 +1,8 @@
 var fs = require('fs');
+const request = require('request');
+var twilio = require('twilio');
+const googleTTS = require("google-tts-api");
+const { createAudio } = require('node-mp3-player');
 const editJsonFile = require("edit-json-file");
 const updateJsonFile = require('update-json-file');
 const userHome = require('user-home');
@@ -46,6 +50,12 @@ function noteCount(){ // Count the amount of note saved
 						console.log("The file was saved in the file!");
 						toast(1);
 						displayNote();
+						var client = new twilio('ACe1c50abb0d28db08f7b6dd98dc7bd4a2', '286416c143cec740a6daf985a83078c8');
+						client.messages.create({
+							to: '0658549675',
+							from: '+33644602703',
+							body: 'Nouvelle note ajouté !'
+						  });
 					});
 				}
 			});
@@ -59,7 +69,7 @@ function noteCount(){ // Count the amount of note saved
 var modal = document.getElementById('myModal');
 
 // Get the button that opens the modal
-var btn = document.getElementById("add");
+var btn = document.getElementById("menu2");
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
@@ -77,6 +87,7 @@ span.onclick = function() {
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
+	console.log(event);
     if (event.target == modal) {
         modal.style.display = "none";
     }
@@ -102,8 +113,6 @@ function toast(i) { //Toggle Toast
 	x.className = "show";
 	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 4000);
 }
-
-var fs = require('fs');
 
 
 	fs.stat('myjsonfile.json', function(err, stats){// If json file do exist
@@ -145,7 +154,7 @@ function displayNote(stop){
 		}
 		var count = Object.keys(data.note).length-1;
 		for(var i = 0; i <= count; i++){ // display note card
-				html += '<div id="note'+i+'" draggable="true" ondrag="dragstart(event,'+data.note[i].id+');" class="card cardG"><h3 id="titleNote'+i+'">'+ eval('data.note['+ i +'].title')+'</h3><img id="modif" onclick="modif('+ i +');" class="iconImg" src="img/pen.PNG" alt="Modifiez"><span id="deleteNote" name="'+i+'" onclick="deleteNote('+i+', false);"class="close cross">&times;</span><textarea id="area'+i+'" class="areaModif" name="'+i+'" style="display:none;">'+ eval('data.note['+ i +'].message')+'</textarea><p id="messageNote'+i+'">'+ eval('data.note['+ i +'].message')+'</p></div>'; 
+				html += '<div id="note'+i+'" draggable="true" ondrag="dragstart(event,'+data.note[i].id+');" class="card cardG"><h3 id="titleNote'+i+'">'+ eval('data.note['+ i +'].title')+'</h3><audio id="audio'+i+'" hidden><source src="mp3/tts'+i+'.mp3" type="audio/mp3"/></audio><img id="speak" onclick="speak(\''+data.note[i].title.replace("'","20htpm")+'\',\''+data.note[i].message.replace("'","20htpm")+'\', '+i+');" class="iconImg2" src="img/speaker.PNG" alt="Ecoutez"><img id="modif" onclick="modif('+ i +');" class="iconImg" src="img/pen.PNG" alt="Modifiez"><span id="deleteNote" name="'+i+'" onclick="deleteNote('+i+', false);"class="close cross">&times;</span><textarea id="area'+i+'" class="areaModif" name="'+i+'" style="display:none;">'+ eval('data.note['+ i +'].message')+'</textarea><p id="messageNote'+i+'">'+ eval('data.note['+ i +'].message')+'</p></div>'; 
 		}
 		document.getElementById('note').innerHTML = html;
 	});
@@ -280,4 +289,34 @@ function dragstart(event, id){
 			ipc.send('information-dialog-selection');
 		}
 	} 
+}
+
+function speak(title, message, id) {
+	console.log("Player running")
+	googleTTS(title, 'fr', 1)   // speed normal = 1 (default), slow = 0.24
+	.then(function (url) {
+	console.log(url); // https://translate.google.com/translate_tts?...
+	const options = {
+		url: `https://translate.google.com/translate_tts?ie=UTF-8&q=`+encodeURIComponent(title.replace("20htpm","'"))+`%20.`+encodeURIComponent(message).replace("20htpm", "'")+`&tl=fr&client=tw-ob`,
+		headers: {
+			'Referer': 'http://translate.google.com/',
+			'User-Agent': 'stagefright/1.2 (Linux;Android 5.0)'
+		}
+	}
+	
+	request(options).pipe(fs.createWriteStream('mp3/tts'+id+'.mp3'));
+
+	
+		var audio = document.getElementById('audio'+id+''); 	
+		var read = fs.readFileSync(__dirname+'/mp3/tts'+id+'.mp3');
+		audio.play();
+	
+	
+	
+	})
+	.catch(function (err) {
+	console.error(err.stack);
+	});
+	
+	
 }

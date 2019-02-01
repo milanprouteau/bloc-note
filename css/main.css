@@ -204,34 +204,6 @@ hr{
 	color: #FFF;
 	width: 160px;
 }
-
-.button {
-    background-color: #f44336;
-    border: none;
-    color: white;
-    position: fixed;
-    padding-top: 4px;
-    bottom: 10px;
-    right: 12px;
-    text-align: center;
-    text-decoration: none;
-    display: block;
-    font-size: 27px;
-    height: 45px;
-    width: 45px;
-    cursor: pointer;
-     box-shadow: 0 0 0 0 rgba(232, 76, 61, 0.7);
-}
-
-.button:hover{
-	background-color: #ba000d;
-    animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
-}
-
-.buttonAdd{
-	border-radius: 50%;
-}
-
 /********    MODAL    *********/
 
 .modal {
