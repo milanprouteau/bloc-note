@@ -112,6 +112,10 @@ document.getElementById('menu4').addEventListener('click', function () { // Quit
 	ipc.send('quit');
 });
 
+document.getElementById('menu0').addEventListener('click', function () { // Reload App
+	ipc.send('reload');
+});
+
 function toast(i) { //Toggle Toast
 	var x = document.getElementById("snackbar"+i);
 	x.className = "show";
@@ -321,6 +325,13 @@ function speak(title, message, id) {
 	.catch(function (err) {
 	console.error(err.stack);
 	});
-	
-	
 }
+
+document.getElementById('menu1').addEventListener('click', function () { // Click on search menu
+	var search = document.getElementById('recherche');
+	if (search.style.display == "none" || search.style.display == "") {
+		search.style.display = 'block';
+	}else{
+		search.style.display = "none";
+	}
+});

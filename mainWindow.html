@@ -3,6 +3,7 @@
 <head>
 	<title>Bloc - Note</title>
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
 <body class="container" id="body">
 
@@ -10,6 +11,11 @@
 	<!-- MENU -->
 	<nav>
 		<ul>
+			<li id="menu0">
+				<div>
+					<img src="img/logo.png" width="40" height="40" style="zoom:120%;">
+				</div>
+			</li>
 			<li id="menu1">
 				<div>
 					<img src="img/loupeWhite.png" width="35" height="35">
@@ -38,6 +44,13 @@
 
 	<h1 class="title">Bloc - Note</h1>
 	<hr>
+	<br>
+	<div id="recherche" class="recherche">
+		<div class="container-1">
+			<span class="icon"><i class="fa fa-search"></i></span>
+			<input type="search" id="search" placeholder="Rechercher une note..." autofocus>
+		</div>
+	</div>
 	<div id="note"><!-- Note --></div>
 	<div id="myModal" class="modal"> <!-- Note creation Modal -->
 		<div class="modal-content">
@@ -78,7 +91,6 @@
 	<div id="save" class="save" style="display:none;">
 		<button id="saveButton">Sauvegarder</button>
 	</div>
-<button id="add" class="button buttonAdd" title="Ajoutez une Note">+</button>
 <script type="text/javascript" src="js/mainWindow.js"></script>
 </body>
 </html>
