@@ -335,3 +335,20 @@ document.getElementById('menu1').addEventListener('click', function () { // Clic
 		search.style.display = "none";
 	}
 });
+
+function search(){
+	var input, filter, divNote, note, a, i, txtValue;
+    input = document.getElementById("search");
+    filter = input.value.toUpperCase();
+    divNote = document.getElementById("note");
+    note = divNote.getElementsByTagName("div");
+    for (i = 0; i < note.length; i++) {
+        a = note[i];
+        txtValue = a.textContent || a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            note[i].style.display = "";
+        } else {
+            note[i].style.display = "none";
+        }
+    }
+}
