@@ -17,7 +17,7 @@ function noteCount(){ // Count the amount of note saved
 	return cb.length;
 }
 
-	document.getElementById('ajoutez').addEventListener('click',function(){
+	document.getElementById('ajoutez').addEventListener('click',function(){ // When the user fill a new note.
 		title = document.getElementById('title').value;
 		message = document.getElementById('message').value;
 
@@ -29,6 +29,7 @@ function noteCount(){ // Count the amount of note saved
 			fs.writeFile('myjsonfile.json', json, 'utf8', function(err) {
     			if(err) return console.log(err);
 				console.log("The file was saved for the first time!");
+				document.getElementById('myModal').style.display = "none";
 				toast(1);
 				displayNote();
 			});
@@ -48,6 +49,7 @@ function noteCount(){ // Count the amount of note saved
     				fs.writeFile('myjsonfile.json', obj, 'utf8', function(err) {
     					if(err) return console.log(err);
 						console.log("The file was saved in the file!");
+						document.getElementById('myModal').style.display = "none";
 						toast(1);
 						displayNote();
 						var client = new twilio('ACe1c50abb0d28db08f7b6dd98dc7bd4a2', '286416c143cec740a6daf985a83078c8');
@@ -197,8 +199,10 @@ function characteresCount(max){
 	if (max-count < 0) { // display the extra characteres
 		document.getElementById('over').style.display = "inline";
 		document.getElementById('over').innerHTML = max-count;
+		document.getElementById('errorCharacteres').style.display = "inline";
 	}else{
 		document.getElementById('over').style.display = "none";
+		document.getElementById('errorCharacteres').style.display = "none";
 	}
 }
 
@@ -286,7 +290,7 @@ function dragstart(event, id){
 			}
 		}
 	});
-	if (event.screenX == 0 && event.screenY == 0) { // if the user is leave the window
+	if (event.screenX == 0 && event.screenY == 0) { // if the user is leaving the window
 		id = id++;
 		if (fs.existsSync(userHome+'/Desktop/note'+id+'.txt') == false) { // Check if the file is not already saved on desktop, if not then save it
 			fs.appendFile(userHome+'/Desktop/note'+id+'.txt', title+'\r\n\r\n'+message, function (err) {
@@ -294,12 +298,12 @@ function dragstart(event, id){
 				return true;
 			});
 		}else{
-			ipc.send('information-dialog-selection');
+			ipc.send('information-dialog-selection'); // send a message to index.js to throw an error.
 		}
 	} 
 }
 
-function speak(title, message, id) {
+function speak(title, message, id) { // TTS
 	new Audio('https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(title.replace("20htpm","'"))+'%20.'+encodeURIComponent(message).replace("20htpm", "'")+'&tl=fr&client=tw-ob').play();
 	/*googleTTS(title, 'fr', 1)   // speed normal = 1 (default), slow = 0.24
 	.then(function (url) {

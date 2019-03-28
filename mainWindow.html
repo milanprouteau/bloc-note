@@ -58,11 +58,10 @@
 			<h1 class="titleNote"> Nouvelle Note
 			</h1>
 			<div style="display: inline;">
-				<input id="title" name="title" type="text" required>
+				<input id="title" name="title" type="text" required autofocus>
 				<label class="container" for="title"><b>Titre</b></label><br>
 				<textarea id="message" name="message" placeholder="Message..." onkeydown="characteresCount(100)" required></textarea>
 				<button id="ajoutez">Ajoutez</button>
-				<div id="snackbar4">La limite de caractère a été atteind</div>
 					<span id="over"></span>
 					<div class="restriction">
 					<span class="circle">
@@ -71,6 +70,7 @@
 							<circle id="circle2" class="js-progress-circle RadialCounter--safe" cx="50%" cy="50%" r="8" fill="none" stroke-width="2" style="stroke-dashoffset: 50;stroke-dasharray: 50.2655;"></circle>
 						</svg>
 					</span>
+					<div id="errorCharacteres" style="display:none;margin-left:15px;">La lecture audio ne sera pas possible.</div>
 				</div>
 			</div>
 		</div>
