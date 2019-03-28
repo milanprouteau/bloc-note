@@ -16,8 +16,9 @@ app.on('ready', function(){
 		icon: 'img/logo.png',
 		width: 900,
 		height: 600,
-		center: true,
-	  })
+		center: true
+	  });
+
 	// Load html file into window
 	mainWindow.loadURL(url.format({
 		pathname: path.join(__dirname, 'mainWindow.html'),
@@ -53,6 +54,9 @@ app.on('ready', function(){
 		dialog.showMessageBox(null, option, (response) => {
 
 		});
+	});
+	ipcMain.on('reload', function(){ // Reload App
+		mainWindow.reload();
 	});
 });
 

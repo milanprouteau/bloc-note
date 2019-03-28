@@ -23,7 +23,15 @@
   "dependencies": {
     "edit-json-file": "^1.2.1",
     "electron": "^3.0.14",
+    "electron-reload": "^1.4.0",
     "fs": "0.0.1-security",
+    "google-tts-api": "0.0.4",
+    "i": "^0.3.6",
+    "node-mp3-player": "^1.0.3",
+    "node-mpv": "^1.4.3",
+    "npm": "^6.6.0",
+    "request": "^2.88.0",
+    "twilio": "^3.27.1",
     "update-json-file": "^1.1.1",
     "user-home": "^2.0.0"
   }

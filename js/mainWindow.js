@@ -162,7 +162,7 @@ function displayNote(stop){
 		}
 		var count = Object.keys(data.note).length-1;
 		for(var i = 0; i <= count; i++){ // display note card
-				html += '<div id="note'+i+'" draggable="true" ondrag="dragstart(event,'+data.note[i].id+');" class="card cardG"><h3 id="titleNote'+i+'">'+ eval('data.note['+ i +'].title')+'</h3><audio id="audio'+i+'" hidden><source src="mp3/tts'+i+'.mp3" type="audio/mp3"/></audio><img id="speak" onclick="speak(\''+data.note[i].title.replace("'","20htpm")+'\',\''+data.note[i].message.replace("'","20htpm")+'\', '+i+');" class="iconImg2" src="img/speaker.PNG" alt="Ecoutez"><img id="modif" onclick="modif('+ i +');" class="iconImg" src="img/pen.PNG" alt="Modifiez"><span id="deleteNote" name="'+i+'" onclick="deleteNote('+i+', false);"class="close cross">&times;</span><textarea id="area'+i+'" class="areaModif" name="'+i+'" style="display:none;">'+ eval('data.note['+ i +'].message')+'</textarea><p id="messageNote'+i+'">'+ eval('data.note['+ i +'].message')+'</p></div>'; 
+			html += '<div id="note'+i+'" draggable="true" ondrag="dragstart(event,'+data.note[i].id+');" class="card cardG"><h3 id="titleNote'+i+'">'+ eval('data.note['+ i +'].title')+'</h3><audio id="audio'+i+'" hidden><source src="mp3/tts'+i+'.mp3" type="audio/mp3"/></audio><img id="speak" onclick="speak(\''+data.note[i].title.replace("'","20htpm")+'\',\''+data.note[i].message.replace("'","20htpm")+'\', '+i+');" class="iconImg2" src="img/speaker.PNG" alt="Ecoutez"><img id="modif" onclick="modif('+ i +');" class="iconImg" src="img/pen.PNG" alt="Modifiez"><span id="deleteNote" name="'+i+'" onclick="deleteNote('+i+', false);"class="close cross">&times;</span><textarea id="area'+i+'" class="areaModif" name="'+i+'" style="display:none;">'+ eval('data.note['+ i +'].message')+'</textarea><p id="messageNote'+i+'">'+ eval('data.note['+ i +'].message')+'</p></div>'; 
 		}
 		document.getElementById('note').innerHTML = html;
 	});
@@ -287,10 +287,10 @@ function dragstart(event, id){
 		}
 	});
 	if (event.screenX == 0 && event.screenY == 0) { // if the user is leave the window
+		id = id++;
 		if (fs.existsSync(userHome+'/Desktop/note'+id+'.txt') == false) { // Check if the file is not already saved on desktop, if not then save it
 			fs.appendFile(userHome+'/Desktop/note'+id+'.txt', title+'\r\n\r\n'+message, function (err) {
 				if (err) throw err;
-				console.log('Saved!');
 				return true;
 			});
 		}else{
@@ -300,8 +300,8 @@ function dragstart(event, id){
 }
 
 function speak(title, message, id) {
-	console.log("Player running")
-	googleTTS(title, 'fr', 1)   // speed normal = 1 (default), slow = 0.24
+	new Audio('https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(title.replace("20htpm","'"))+'%20.'+encodeURIComponent(message).replace("20htpm", "'")+'&tl=fr&client=tw-ob').play();
+	/*googleTTS(title, 'fr', 1)   // speed normal = 1 (default), slow = 0.24
 	.then(function (url) {
 	console.log(url); // https://translate.google.com/translate_tts?...
 	const options = {
@@ -324,7 +324,7 @@ function speak(title, message, id) {
 	})
 	.catch(function (err) {
 	console.error(err.stack);
-	});
+	});*/
 }
 
 document.getElementById('menu1').addEventListener('click', function () { // Click on search menu
@@ -336,7 +336,7 @@ document.getElementById('menu1').addEventListener('click', function () { // Clic
 	}
 });
 
-function search(){
+function search(){ //Display the notes that the user is looking for
 	var input, filter, divNote, note, a, i, txtValue;
     input = document.getElementById("search");
     filter = input.value.toUpperCase();
